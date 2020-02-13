@@ -25,7 +25,7 @@
     <packaging>war</packaging>
 
     <name>Inventory Microservice</name>
-    <description>WildFly Swarm : REST - JDBC - Inventory Service</description>
+    <description>Quarkus : REST - JDBC - Inventory Service</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -47,36 +47,38 @@
         <version.wildfly.swarm>7.0.0.redhat-8</version.wildfly.swarm>
         <version.resteasy>3.0.19.Final</version.resteasy>
         <version.override.jackson>2.7.7</version.override.jackson>
-
+        <version.quarkus>1.2.0.Final</version.quarkus>
+        <version.hibernate>1.2.0.Final</version.hibernate>
+        
+        <version.scheduler>1.2.0.Final</version.scheduler>
         <version.h2>1.4.187</version.h2>
-        <version.resteasy>3.0.19.Final</version.resteasy>
+        <version.resteasy>1.2.0.Final</version.resteasy>
+        <version.arc>1.2.0.Final</version.arc>
         <version.postgresql>9.4.1207</version.postgresql>
-
+        <version.jsonb>1.2.0.Final</version.jsonb>
         <maven.test.skip>true</maven.test.skip>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>bom</artifactId>
-                <version>${version.wildfly.swarm}</version>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-bom</artifactId>
+                <version>${version.quarkus}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>bom-certified</artifactId>
-                <version>${version.wildfly.swarm}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+           </dependency>
             <dependency>
                 <groupId>io.fabric8</groupId>
                 <artifactId>fabric8-project-bom-with-platform-deps</artifactId>
                 <version>${fabric8.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency> 
+                <groupId>io.fabric8</groupId>
+                <artifactId>kubernetes-client</artifactId>
+                <version>4.3.0</version>
             </dependency>
 
         </dependencies>
@@ -85,26 +87,36 @@
     <dependencies>
 
 <!-- Add monitor fraction -->
-
+      
+       <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
+            <version>${version.arc}</version>
+        </dependency> 
         <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>jaxrs</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy-jsonb</artifactId>
+            <version>${version.jsonb}</version>
         </dependency>
         <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>cdi</artifactId>
+            <groupId>javax.ejb</groupId>
+            <artifactId>ejb-api</artifactId>
+            <version>3.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>ejb</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc-deployment</artifactId>
+            <version>${version.arc}</version> 
+        </dependency> 
+         <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy</artifactId>
+             <version>${version.resteasy}</version>
         </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.swarm</groupId>
-            <artifactId>datasources</artifactId>
+         <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-spring-data-jpa</artifactId>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -121,24 +133,36 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>wildfly-swarm-plugin</artifactId>
-                <version>${version.wildfly.swarm}</version>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-maven-plugin</artifactId>
+                <version>${version.quarkus}</version>
                 <executions>
                     <execution>
-                        <id>package</id>
                         <goals>
-                            <goal>package</goal>
+                            <goal>build</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <jvmArguments>-Djava.net.preferIPv4Stack=true</jvmArguments>
-                    <arguments>
-                        <argument>-S</argument>
-                        <argument>development</argument>
-                    </arguments>
-                </configuration>
+                        <jvmArguments>-Djava.net.preferIPv4Stack=true</jvmArguments>
+                        <arguments>
+                            <argument>-S</argument>
+                            <argument>development</argument>
+                        </arguments>
+                    </configuration>
+            </plugin>
+            <plugin>
+              <groupId>org.jboss.jandex</groupId>
+              <artifactId>jandex-maven-plugin</artifactId>
+              <version>1.0.7</version>
+              <executions>
+                <execution>
+                  <id>make-index</id>
+                  <goals>
+                    <goal>jandex</goal>
+                  </goals>
+                </execution>
+              </executions>
             </plugin>
         </plugins>
     </build>
@@ -163,7 +187,7 @@
                         <configuration>
                             <generator>
                                 <includes>
-                                    <include>wildfly-swarm</include>
+                                    <include>quarkus-maven</include>
                                 </includes>
                             </generator>
                         </configuration>
