@@ -13,8 +13,7 @@
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
-  limitations under the License.
--->
+  limitations under the License.-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -51,10 +50,11 @@
         <version.hibernate>1.2.0.Final</version.hibernate>
         
         <version.scheduler>1.2.0.Final</version.scheduler>
-        <version.h2>1.4.187</version.h2>
+        <version.h2>1.2.0.Final</version.h2>
         <version.resteasy>1.2.0.Final</version.resteasy>
         <version.arc>1.2.0.Final</version.arc>
-        <version.postgresql>9.4.1207</version.postgresql>
+        <version.agroal>1.2.0.Final</version.agroal>
+        <version.postgresql>1.2.0.Final</version.postgresql>
         <version.jsonb>1.2.0.Final</version.jsonb>
         <maven.test.skip>true</maven.test.skip>
     </properties>
@@ -75,11 +75,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency> 
-                <groupId>io.fabric8</groupId>
-                <artifactId>kubernetes-client</artifactId>
-                <version>4.3.0</version>
-            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -93,6 +88,11 @@
             <artifactId>quarkus-arc</artifactId>
             <version>${version.arc}</version>
         </dependency> 
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-hibernate-orm</artifactId>
+            <version>${version.hibernate}</version>
+        </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy-jsonb</artifactId>
@@ -114,25 +114,26 @@
             <artifactId>quarkus-resteasy</artifactId>
              <version>${version.resteasy}</version>
         </dependency>
+        <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-agroal</artifactId>
+        <version>${version.agroal}</version>
+        </dependency>
          <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-jdbc-h2</artifactId>
+        <version>${version.h2}</version>
+        </dependency>
+        <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-spring-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${version.h2}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
+            <artifactId>quarkus-jdbc-postgresql</artifactId>
             <version>${version.postgresql}</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
+        <plugin>
                 <groupId>io.quarkus</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
                 <version>${version.quarkus}</version>
@@ -197,3 +198,4 @@
         </profile>
     </profiles>
 </project>
+
