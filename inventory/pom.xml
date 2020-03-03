@@ -68,20 +68,15 @@
                 <type>pom</type>
                 <scope>import</scope>
            </dependency>
-            <dependency>
-                <groupId>io.fabric8</groupId>
-                <artifactId>fabric8-project-bom-with-platform-deps</artifactId>
-                <version>${fabric8.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
 
-<!-- Add monitor fraction -->
+ <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-health</artifactId>
+  </dependency> 
       
        <dependency>
             <groupId>io.quarkus</groupId>
@@ -185,13 +180,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                        <configuration>
-                            <generator>
-                                <includes>
-                                    <include>quarkus-maven</include>
-                                </includes>
-                            </generator>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
