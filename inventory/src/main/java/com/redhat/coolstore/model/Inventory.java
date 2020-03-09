@@ -10,33 +10,33 @@ import java.io.Serializable;
 @Table(name = "INVENTORY", uniqueConstraints = @UniqueConstraint(columnNames = "itemId"))
 public class Inventory implements Serializable {
 
-	private static final long serialVersionUID = -7304814269819778382L;
+    private static final long serialVersionUID = -7304814269819778382L;
 
-	@Id
-	private String itemId;
-
-
-	private String location;
+    @Id
+    private String itemId;
 
 
-	private int quantity;
+    private String location;
 
 
-	private String link;
+    private int quantity;
 
-	public Inventory() {
 
-	}
+    private String link;
 
-	public Inventory(String itemId, int quantity, String location, String link) {
-		super();
-		this.itemId = itemId;
-		this.quantity = quantity;
-		this.location = location;
-		this.link = link;
-	}
+    public Inventory() {
 
-	public String getItemId() {
+    }
+
+    public Inventory(String itemId, int quantity, String location, String link) {
+        super();
+        this.itemId = itemId;
+        this.quantity = quantity;
+        this.location = location;
+        this.link = link;
+    }
+
+    public String getItemId() {
 		return itemId;
 	}
 
@@ -69,7 +69,7 @@ public class Inventory implements Serializable {
 	}
 
 	@Override
-	public String toString() {
-		return "Inventory [itemId=" + itemId + ", availability=" + quantity + "/" + location + " link=" + link + "]";
-	}
+    public String toString() {
+        return "Inventory [itemId=" + itemId + ", availability=" + quantity + "/" + location + " link=" + link + "]";
+    }
 }
