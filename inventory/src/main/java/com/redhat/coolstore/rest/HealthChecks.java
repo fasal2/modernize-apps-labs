@@ -1,29 +1,18 @@
 package com.redhat.coolstore.rest;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import org.eclipse.microprofile.health.HealthCheck;
+import org.eclipse.microprofile.health.HealthCheckResponse;
+import org.eclipse.microprofile.health.Liveness;
 
-import com.redhat.coolstore.service.InventoryService;
-import org.wildfly.swarm.health.Health;
-import org.wildfly.swarm.health.HealthStatus;
+import javax.enterprise.context.ApplicationScoped;
 
-@Path("/infra")
-public class HealthChecks {
+@Liveness
+@ApplicationScoped
 
-    @Inject
-    private InventoryService inventoryService;
+public class HealthChecks implements HealthCheck {
 
-    @GET
-    @Health
-    @Path("/health")
-    public HealthStatus check() {
-
-        if (inventoryService.isAlive()) {
-            return HealthStatus.named("service-state").up();
-        } else {
-            return HealthStatus.named("service-state").down();
-        }
+    @Override
+    public HealthCheckResponse call() {
+        return HealthCheckResponse.up("Simple health check");
     }
 }
-
