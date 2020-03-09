@@ -3,7 +3,7 @@ package com.redhat.coolstore.rest;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -13,15 +13,15 @@ import javax.ws.rs.core.MediaType;
 
 import com.redhat.coolstore.model.Inventory;
 import com.redhat.coolstore.service.InventoryService;
-
-@RequestScoped
+        
+@ApplicationScoped
 @Path("/inventory")
 public class InventoryEndpoint implements Serializable {
 
     private static final long serialVersionUID = -7227732980791688773L;
 
     @Inject
-    private InventoryService inventoryService;
+    InventoryService inventoryService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
