@@ -45,6 +45,49 @@ angular.module('app')
 
             }])
 
+    .controller("PopularsController",
+        ['$scope', '$http', '$filter', 'Notifications', 'cart', 'catalog', 'Auth',
+            function ($scope, $http, $filter, Notifications, cart, catalog, $auth) {
+                $scope.products = [];
+                $scope.addToCart = function (item) {
+                    cart.addToCart(item.product, parseInt(item.quantity)).then(function (data) {
+                        Notifications.success("Added! Your total is " + $filter('currency')(data.cartTotal));
+                    }, function (err) {
+                        Notifications.error("Error adding to cart: " + err.statusText);
+                    });
+                };
+
+                $scope.isUndefined = function(val) {
+                    return typeof val === 'undefined';
+                };
+
+                $scope.isLoggedIn = function () {
+                    return $auth.loggedIn;
+                };
+                $scope.ssoEnabled = function () {
+                    return $auth.ssoEnabled;
+                };
+
+                $scope.login = function () {
+                    $auth.login();
+                };
+
+
+                // initialize products
+                catalog.getProducts().then(function (data) {
+                    $scope.products = data.map(function (el) {
+                        return {
+                            quantity: "1",
+                            product: el
+                        }
+                    })
+                }, function (err) {
+                    Notifications.error("Error retrieving products: " + err.statusText);
+                });
+
+
+            }])
+
     .controller("CartController",
         ['$scope', '$http', 'Notifications', 'cart', 'Auth',
             function ($scope, $http, Notifications, cart, $auth) {

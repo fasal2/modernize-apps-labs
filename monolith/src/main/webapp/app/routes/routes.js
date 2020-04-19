@@ -10,6 +10,11 @@ angular.module('app').config([ '$routeProvider', function($routeProvider) {
   }).when('/orders', {
     templateUrl : 'partials/orders.html',
     controller : 'OrdersController'
+  }).when('/populars', {
+    // -change-
+    // route added
+    templateUrl : 'partials/populars.html',
+    controller : 'PopularsController'
   }).otherwise({
     redirectTo : '/'
   });

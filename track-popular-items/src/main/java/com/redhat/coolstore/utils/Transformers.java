@@ -12,14 +12,20 @@ import java.util.List;
 
 public class Transformers {
 
-    // -change-
     public static JsonObject shoppingCartItemToJson(ShoppingCartItem item) {
         return new JsonObject()
                 .put("product", productToJson(item.getProduct()))
                 .put("quantity", item.getQuantity());
     }
 
-    // -change-
+    public static ShoppingCartItem jsonToShoppingCartItem(JsonObject json) {
+        ShoppingCartItem item =  new ShoppingCartItemImpl();
+        item.setQuantity(json.getInteger("quantity"));
+        item.setProduct(jsonToProduct(json.getJsonObject("product")));
+
+        return item;
+    }
+
     public static JsonObject shoppingCartToJson(ShoppingCart cart) {
         JsonArray cartItems = new JsonArray();
         cart.getShoppingCartItemList().forEach(item -> cartItems.add(shoppingCartItemToJson(item)));
